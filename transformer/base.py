@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-from multi_head_attention_test import MultiHeadAttention
+from .multi_head_attention_test import MultiHeadAttention
 
 
 class BaseAttention(tf.keras.layers.Layer):
@@ -36,12 +36,11 @@ class GlobalSelfAttention(BaseAttention):
 
 
 class CausalSelfAttention(BaseAttention):
-    def call(self, x, mask):
+    def call(self, x):
         attn_output = self.mha(
             q=x,
             v=x,
-            k=x,
-            mask=mask)
+            k=x)
         x = self.add([x, attn_output])
         x = self.layer_norm(x)
         return x

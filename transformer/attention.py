@@ -1,6 +1,6 @@
-from tensorflow import  matmul, math, cast, float32
+from tensorflow import  matmul, math, cast, float32,logical_not
 from keras.layers import Layer
-from keras.backend import softmax
+import tensorflow as tf
 
 
 class ScaledDotProductAttention(Layer):
@@ -11,6 +11,8 @@ class ScaledDotProductAttention(Layer):
         scores = matmul(q, k, transpose_b=True)/math.rsqrt(cast(d_k,float32))
         
         if mask is not None:
+            mask= logical_not(mask)
+            mask= cast(mask,dtype=scores.dtype)
             scores += -1e9 * mask
         
-        return matmul(softmax(scores),v)
+        return matmul(tf.keras.backend.softmax(scores),v)

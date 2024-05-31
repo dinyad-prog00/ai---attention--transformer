@@ -5,3 +5,4 @@ env/
 venv/
 *.pdf
 notes.md
+test.ipynb

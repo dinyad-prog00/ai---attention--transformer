@@ -1,6 +1,6 @@
 import tensorflow as tf
-from base import FeedForward, GlobalSelfAttention
-from positional_encoding import PositionalEmbedding
+from .base import FeedForward, GlobalSelfAttention
+from .positional_encoding import PositionalEmbedding
 
 
 class EncoderLayer(tf.keras.layers.Layer):
@@ -39,7 +39,6 @@ class Encoder(tf.keras.layers.Layer):
         ]
 
     def call(self, x):
-        print(x)
         x = self.pos_embedding(x)
 
         x = self.dropout(x)

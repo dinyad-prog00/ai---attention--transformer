@@ -39,8 +39,11 @@ class PositionalEmbedding(Layer):
         pos_encoding = np.zeros((seq_len, d_model))
         pos_encoding[:, 0::2] = sin_vals
         pos_encoding[:, 1::2] = cos_vals
-
         return tf.cast(pos_encoding, dtype=tf.float32)
 
     def call(self, x):
-        return self.embedding(x) + self.pos_encoding
+        length = tf.shape(x)[1]
+        x = self.embedding(x)
+        x = x + self.pos_encoding[tf.newaxis, :length, :]
+        return x
+        #return self.embedding(x) + self.pos_encoding
